@@ -20,7 +20,8 @@ import enhanced_csi
 
 def main():
     """Run csi video stream and object detector."""
-    obj_detect = edgeiq.ObjectDetection("alwaysai/yolo_v3_416_nano")
+    obj_detect = edgeiq.ObjectDetection(
+                "alwaysai/ssd_mobilenet_v1_coco_2018_01_28")
     obj_detect.load(engine=edgeiq.Engine.DNN_CUDA)
 
     print("Loaded model:\n{}\n".format(obj_detect.model_id))
@@ -34,7 +35,7 @@ def main():
                                             FrameRotation.ROTATE_180,
                                             camera_mode=enhanced_csi.
                                             JetsonCameraMode.
-                                            IMX477_1920x1080_60_1,
+                                            IMX477_4032x3040_30_0,
                                             display_width=640,
                                             display_height=480) as video_stream,\
                 edgeiq.Streamer() as streamer:
@@ -43,8 +44,8 @@ def main():
 
             # loop detection
             while True:
-                frame = edgeiq.read_camera(video_stream, True)
-                results = obj_detect.detect_objects(frame, confidence_level=.5)
+                frame = enhanced_csi.read_camera(video_stream, True)
+                results = obj_detect.detect_objects(frame, confidence_level=.4)
                 frame = edgeiq.markup_image(
                         frame, results.predictions, colors=obj_detect.colors)
 

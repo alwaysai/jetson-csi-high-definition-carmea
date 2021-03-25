@@ -257,7 +257,7 @@ class JetsonVideoStream(_BaseVideoStream):
             raise ValueError(
                     'Invalid input for rotation: {}'.format(self._rotation))
 
-        if self._sensor_mode == JetsonCameraMode.IIMX219_3264x2468_21_0:
+        if self._sensor_mode == JetsonCameraMode.IMX219_3264x2468_21_0:
             self._mode = 0
             self._capture_width = 3264
             self._capture_height = 2468
